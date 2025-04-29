@@ -8,16 +8,23 @@
 </head>
 <body>
     <header class="header">
-        <img class="header-img" src="./img/123.png" alt="img">
+        <img class="header-img bird" src="./img/123.png" alt="img">
         <h1>Склад Чаек</h1>
         <img class="header-img" src="./img/123.png" alt="img">
     </header>
     <div class="controls">
-        <button onclick="updateMoodsAndProductivity()">Обновить настроение</button>
-        <button onclick="showTop3()">Показать топ-3 трудяг</button>
+        <button id="updBtn">Обновить настроение</button>
+        <button id="topBtn">Показать топ-3 трудяг</button>
       </div>
   <div id="zoo" class="zoo"></div>
 
-  <script src="./js/app.js"></script>
+  <div class="backdrop is-hidden" data-modal>
+    <div class="modal">
+        <img class="modal-img" src="./img/seagull.jpg" alt="img">
+    </div>
+</div>
+
+  <script src="./js/app.js" type="module"></script>
+  <script src="./js/modal.js" type="module"></script>
 </body>
 </html>

@@ -1,25 +1,6 @@
-const moods = ['😴 Задремавшая чайка', '🕊️ В бойкой форме', '🎶 Поющая чайка', '😠 Крикливая чайка'];
+import {employees} from './employees.js';
 
-const employees = [
-  { name: 'Юрий', role: 'Чайка-приемщик', productivity: 60, mood: '', star: false },
-  { name: 'Ольга', role: 'Чайка-приемщик', productivity: 80, mood: '', star: false },
-  { name: 'Сергей', role: 'Чайка-приемщик', productivity: 70, mood: '', star: false },
-  { name: 'Людмила', role: 'Чайка-приемщик', productivity: 45, mood: '', star: false },
-  { name: 'Анна', role: 'Чайка-отборщик', productivity: 90, mood: '', star: false },
-  { name: 'Катерина', role: 'Чайка-отборщик', productivity: 90, mood: '', star: false },
-  { name: 'Иван', role: 'Чайка-отборщик', productivity: 90, mood: '', star: false },
-  { name: 'Олег', role: 'Чайка-отборщик', productivity: 90, mood: '', star: false },
-  { name: 'Николай', role: 'Чайка-отборщик', productivity: 90, mood: '', star: false },
-  { name: 'Александр', role: 'Чайка-отборщик', productivity: 90, mood: '', star: false },
-  { name: 'Денис', role: 'Чайка-отборщик', productivity: 90, mood: '', star: false },
-  { name: 'Виктор', role: 'Чайка-отборщик', productivity: 90, mood: '', star: false },
-  { name: 'Евгений', role: 'Чайка-отборщик', productivity: 90, mood: '', star: false },
-  { name: 'Сергей', role: 'Чайка-переместитель', productivity: 90, mood: '', star: false },
-  { name: 'Александр', role: 'Чайка-переместитель', productivity: 90, mood: '', star: false },
-  { name: 'Николай', role: 'Чайка-переместитель', productivity: 90, mood: '', star: false },
-  { name: 'Ярослав', role: 'Чайка-переместитель', productivity: 90, mood: '', star: false },
-  { name: 'Михаил', role: 'Чайка-переместитель', productivity: 90, mood: '', star: false },
-];
+const moods = ['😴 Задремавшая чайка', '🕊️ В бойкой форме', '🎶 Поющая чайка', '😠 Крикливая чайка'];
 
 function randomMood() {
   return moods[Math.floor(Math.random() * moods.length)];
@@ -28,14 +9,14 @@ function randomMood() {
 function productivityFromMood(mood) {
   switch (mood) {
     case '🕊️ В бойкой форме':
-      return 70 + Math.floor(Math.random() * 21); // 70-90
+      return 70 + Math.floor(Math.random() * 21);
     case '🎶 Поющая чайка':
-      return 40 + Math.floor(Math.random() * 21); // 40-60
+      return 40 + Math.floor(Math.random() * 21);
     case '😠 Крикливая чайка':
-      return 10 + Math.floor(Math.random() * 21); // 10-30
+      return 10 + Math.floor(Math.random() * 21);
     case '😴 Задремавшая чайка':
     default:
-      return 0 + Math.floor(Math.random() * 21); // 0-20
+      return 0 + Math.floor(Math.random() * 21);
   }
 }
 
@@ -48,6 +29,7 @@ function renderZoo(data) {
     card.innerHTML = `
       <h3>${emp.name} ${emp.star ? '⭐ ' : ''}</h3>
       <p class='role'>${emp.role}</p>
+      <span class='cup'>${emp.cup ? '🏆 ' : ''}</span>
       <div class="productivity-bar">
         <div class="productivity-fill" style="width: ${emp.productivity}%;"></div>
       </div>
@@ -64,6 +46,7 @@ function updateMoodsAndProductivity() {
     e.mood = randomMood();
     e.productivity = productivityFromMood(e.mood);
     e.star = false;
+    e.cup = false;
   });
   renderZoo(employees);
 }
@@ -71,8 +54,15 @@ function updateMoodsAndProductivity() {
 function showTop3() {
   const top3 = [...employees].sort((a, b) => b.productivity - a.productivity).slice(0, 3);
   top3.forEach(e => e.star = true);
+  top3.forEach(e => e.cup = true);
   renderZoo(top3);
 }
+
+const topBtn = document.getElementById('topBtn');
+const updBtn = document.getElementById('updBtn');
+topBtn.addEventListener('click', showTop3);
+updBtn.addEventListener('click', updateMoodsAndProductivity);
+
 
 function generateComment(emp) {
   if (emp.productivity > 80) return 'Летала и работала без остановки!';
